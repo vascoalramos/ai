@@ -25,5 +25,5 @@ def count_elements(lst, final=[]): # TODO: dunno
 if __name__ == "__main__":
     lst = [(1,4), (2,3), (3,2), (4,1)]
     print(f"separa: {separar(lst)}")
-    print(f"remove e conta: {remove_e_conta([1, 6, 2, 5, 5, 2, 5, 2], 2)}")"
+    print(f"remove e conta: {remove_e_conta([1, 6, 2, 5, 5, 2, 5, 2], 2)}")
     print(f"")
