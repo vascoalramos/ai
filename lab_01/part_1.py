@@ -48,8 +48,12 @@ def check_capicua(lst):
 
 
 # function that concatenates a list of lists into a single list
-def concat_lists_2(lst):
-    pass
+def list_of_lists_concat(lst):
+    if lst == []:
+        return []
+    if not isinstance(lst[0], list):
+        return lst
+    return lst[0] + list_of_lists_concat(lst[1:])
 
 
 # function that return a new list where replaces x by y in a given list
@@ -74,7 +78,7 @@ def union(lst1, lst2):
 
 
 # function that given a list return a list with all the sub-sets of the original list
-def subsets(lst):
+def subsets(lst): # TODO: it's not right
     if lst == []:
         return []
     return [list(range(0, lst[0]+1))] + subsets(lst[1:]) if len(lst) == 1 else [list(range(0, lst[0]))] + subsets(lst[1:])
