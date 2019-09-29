@@ -17,7 +17,7 @@ def remove_e_conta(lst, element):
         return [lst[0]] + lst1, count
 
 
-def count_elements(lst, final=[]): # TODO: is not yet done
+def count_elements(lst, final=[]): # TODO: dunno
     if lst == []:
         return ()
 
