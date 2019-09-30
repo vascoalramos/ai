@@ -102,7 +102,7 @@ class SearchTree:
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state,a)
                 # Add the node if this does not already exist (we are now skippng the loop)
-                # te second condition is to skip iteration if the limit threshold was passed
+                # The second condition is to skip iteration if the limit threshold was passed
                 if not node.in_parent(newstate) and node.depth < limit:
                     lnewnodes += [SearchNode(newstate,node,node.depth+1)]
                     self.length += 1
