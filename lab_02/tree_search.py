@@ -82,13 +82,14 @@ class SearchTree:
         root = SearchNode(problem.initial, None, 0)
         self.open_nodes = [root]
         self.strategy = strategy
+        self.length = 0
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self,node):
         if node.parent == None:
-            return [node]
+            return [node.state]
         path = self.get_path(node.parent)
-        path += [node]
+        path += [node.state]
         return(path)
 
     # procurar a solucao
@@ -100,8 +101,10 @@ class SearchTree:
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state,a)
-                if not node.in_parent(newstate): # Add the node if this does not already exist (we are now skippng the loop)
+                # Add the node if this does not already exist (we are now skippng the loop)
+                if not node.in_parent(newstate):
                     lnewnodes += [SearchNode(newstate,node,node.depth+1)]
+                    self.length += 1
             self.add_to_open(lnewnodes)
         return None
 
