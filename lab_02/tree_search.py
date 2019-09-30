@@ -99,6 +99,7 @@ class SearchTree:
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
             if self.problem.goal_test(node.state):
+                self.ramification = (self.terminal + self.non_terminal - 1 ) / self.non_terminal
                 return self.get_path(node)
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):

@@ -107,5 +107,8 @@ def search_path(c1,c2,strategy):
     my_tree.strategy = strategy
     return my_tree.search()
 
-print(t.search(8))
-print(t.length) # added to alinea (c)
+print(t.search(9))
+print(F"Length: {t.length}") # added to alinea (c)
+print(f"Terminal nodes: {t.terminal}") # added to alinea (5)
+print(f"Non terminal nodes: {t.non_terminal}") # added to alinea (5)
+print(f"Ramification ratio: {t.ramification}") # added to alinea (6)
