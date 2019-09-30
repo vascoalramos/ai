@@ -93,7 +93,7 @@ class SearchTree:
         return(path)
 
     # procurar a solucao
-    def search(self):
+    def search(self, limit):
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
             if self.problem.goal_test(node.state):
@@ -102,7 +102,8 @@ class SearchTree:
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state,a)
                 # Add the node if this does not already exist (we are now skippng the loop)
-                if not node.in_parent(newstate):
+                # te second condition is to skip iteration if the limit threshold was passed
+                if not node.in_parent(newstate) and node.depth < limit:
                     lnewnodes += [SearchNode(newstate,node,node.depth+1)]
                     self.length += 1
             self.add_to_open(lnewnodes)
