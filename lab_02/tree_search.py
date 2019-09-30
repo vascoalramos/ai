@@ -83,6 +83,8 @@ class SearchTree:
         self.open_nodes = [root]
         self.strategy = strategy
         self.length = 0
+        self.terminal = 0
+        self.non_terminal = 1
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self,node):
@@ -107,6 +109,10 @@ class SearchTree:
                     lnewnodes += [SearchNode(newstate,node,node.depth+1)]
                     self.length += 1
             self.add_to_open(lnewnodes)
+            self.non_terminal += len(lnewnodes)
+            if lnewnodes == []:
+                self.terminal += 1
+                self.non_terminal -= 1
         return None
 
     # juntar novos nos a lista de nos abertos de acordo com a estrategia

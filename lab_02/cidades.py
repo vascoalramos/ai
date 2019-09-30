@@ -107,5 +107,5 @@ def search_path(c1,c2,strategy):
     my_tree.strategy = strategy
     return my_tree.search()
 
-print(t.search(9))
+print(t.search(8))
 print(t.length) # added to alinea (c)
