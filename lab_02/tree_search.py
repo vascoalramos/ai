@@ -95,6 +95,8 @@ class SearchTree:
         self.terminal = 0
         self.non_terminal = 1
         self.cost = 0
+        self.max_accumulated_costs = [root]
+        self.nodes_depth = []
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self, node):
@@ -127,6 +129,11 @@ class SearchTree:
                                                 newstate, self.problem.goal))]
                     self.length += 1
                     self.cost += self.problem.domain.cost(node.state, a)
+
+                    if node.cost > self.max_accumulated_costs[0].cost:
+                        self.max_accumulated_costs = [node]
+                    elif node.cost == self.max_accumulated_costs[0].cost and node not in self.max_accumulated_costs:
+                        self.max_accumulated_costs.append(node)
             self.add_to_open(lnewnodes)
             self.non_terminal += len(lnewnodes)
             if lnewnodes == []:
