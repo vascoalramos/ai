@@ -39,7 +39,7 @@ class Cidades(SearchDomain):
                 return dist
         return None
 
-    def heuristic(self, state, goal_state):
+    def heuristic(self, cidade, goal_state):
         pass
 
 
@@ -108,7 +108,7 @@ cidades_portugal = Cidades(
 
 
 p = SearchProblem(cidades_portugal, 'Braga', 'Faro')
-t = SearchTree(p, 'uniform')
+t = SearchTree(p, 'depth')
 
 
 # Atalho para obter caminho de c1 para c2 usando strategy:
