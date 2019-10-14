@@ -111,7 +111,7 @@ cidades_portugal = Cidades(
 
 
 p = SearchProblem(cidades_portugal, 'Braga', 'Faro')
-t = SearchTree(p, 'depth')
+t = SearchTree(p, 'greedy')
 
 
 # Atalho para obter caminho de c1 para c2 usando strategy:

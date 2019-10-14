@@ -62,11 +62,12 @@ class SearchProblem:
 
 # Nos de uma arvore de pesquisa
 class SearchNode:
-    def __init__(self, state, parent, depth, cost):
+    def __init__(self, state, parent, depth, cost, heuristic = 0):
         self.state = state
         self.parent = parent
         self.depth = depth
         self.cost = cost
+        self.heuristic = heuristic
 
     def in_parent(self, state):  # check the parent node so that we prevent the infinite loop
         if self.parent is None:
@@ -86,7 +87,8 @@ class SearchTree:
     # construtor
     def __init__(self, problem, strategy='breadth'):
         self.problem = problem
-        root = SearchNode(problem.initial, None, 0, 0)
+        root = SearchNode(problem.initial, None, 0, 0, self.problem.domain.heuristic(
+            self.problem.initial, self.problem.goal))
         self.open_nodes = [root]
         self.strategy = strategy
         self.length = 0
@@ -116,8 +118,13 @@ class SearchTree:
                 # Add the node if this does not already exist (we are now skippng the loop)
                 # The second condition is to skip iteration if the limit threshold was passed
                 if not node.in_parent(newstate) and node.depth < limit:
-                    lnewnodes += [SearchNode(newstate, node, node.depth+1,
-                                             node.cost + self.problem.domain.cost(node.state, a))]
+                    lnewnodes += [SearchNode(newstate,
+                                             node, node.depth+1,
+                                             node.cost +
+                                             self.problem.domain.cost(
+                                                 node.state, a),
+                                             self.problem.domain.heuristic(
+                                                newstate, self.problem.goal))]
                     self.length += 1
                     self.cost += self.problem.domain.cost(node.state, a)
             self.add_to_open(lnewnodes)
@@ -129,9 +136,13 @@ class SearchTree:
 
     # juntar novos nos a lista de nos abertos de acordo com a estrategia
     def add_to_open(self, lnewnodes):
-        if self.strategy == 'breadth':
+        if self.strategy == "breadth":
             self.open_nodes.extend(lnewnodes)
-        elif self.strategy == 'depth':
+        elif self.strategy == "depth":
             self.open_nodes[:0] = lnewnodes
-        elif self.strategy == 'uniform':
-            self.open_nodes = sorted(self.open_nodes + lnewnodes, key = lambda x: x.cost)
+        elif self.strategy == "uniform":
+            self.open_nodes = sorted(
+                self.open_nodes + lnewnodes, key=lambda x: x.cost)
+        elif self.strategy == "greedy":
+            self.open_nodes = sorted(
+                self.open_nodes + lnewnodes, key=lambda x: x.heuristic)
