@@ -9,6 +9,7 @@
 
 
 from tree_search import *
+import math
 
 
 class Cidades(SearchDomain):
@@ -30,7 +31,7 @@ class Cidades(SearchDomain):
         if C1 == cidade:
             return C2
 
-    def cost(self, cidade, action): # implementation of cost function (7)
+    def cost(self, cidade, action):  # implementation of cost function (7)
         (C1, C2) = action
         if C1 != cidade:
             return None
@@ -39,8 +40,8 @@ class Cidades(SearchDomain):
                 return dist
         return None
 
-    def heuristic(self, cidade, goal_state):
-        pass
+    def heuristic(self, cidade, goal_cidade):
+        return math.hypot(cidade.coordinates[0]-goal_cidade.coordinates[0], cidade.coordinates[1]-goal_cidade.coordinates[1])
 
 
 cidades_portugal = Cidades(
