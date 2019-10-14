@@ -113,6 +113,7 @@ class SearchTree:
             if self.problem.goal_test(node.state):
                 self.ramification = (
                     self.terminal + self.non_terminal - 1) / self.non_terminal
+                self.mean_depth = sum(self.mean_depth) / len(self.mean_depth)
                 return self.get_path(node)
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):
@@ -129,6 +130,7 @@ class SearchTree:
                                                 newstate, self.problem.goal))]
                     self.length += 1
                     self.cost += self.problem.domain.cost(node.state, a)
+                    self.nodes_depth.append(node.depth)
 
                     if node.cost > self.max_accumulated_costs[0].cost:
                         self.max_accumulated_costs = [node]
