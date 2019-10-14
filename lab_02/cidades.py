@@ -41,7 +41,9 @@ class Cidades(SearchDomain):
         return None
 
     def heuristic(self, cidade, goal_cidade):
-        return math.hypot(cidade.coordinates[0]-goal_cidade.coordinates[0], cidade.coordinates[1]-goal_cidade.coordinates[1])
+        x1, y1 = self.coordinates[cidade]
+        x2, y2 = self.coordinates[goal_cidade]
+        return math.hypot(x1-x2, y1-y2)
 
 
 cidades_portugal = Cidades(
