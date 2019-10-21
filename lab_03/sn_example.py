@@ -80,6 +80,6 @@ z.insert(Declaration('damasio', Member('socrates','filosofo')))
 #z.insert(Declaration('darwin', AssocOne('socrates','pai','pericles')))
 #z.insert(Declaration('descartes', AssocOne('socrates','pai','sofronisco')))
 
-print(z.list_associations())
-
-
+print(z.list_associations()) # alinea (a)
+print(z.list_entities()) # alinea (b)
+print(z.list_users()) # alinea (c)

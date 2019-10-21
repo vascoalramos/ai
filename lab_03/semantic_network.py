@@ -98,6 +98,12 @@ class SemanticNetwork:
     def list_associations(self): # aliena (a)
         return list(set([d.relation.name for d in self.declarations if isinstance(d.relation, Association)]))
 
+    def list_entities(self): # aliena (b)
+        return list(set([d.relation.entity1 for d in self.declarations if isinstance(d.relation, Member)]))
+
+    def list_users(self): # alinea (c)
+        return list(set([d.user for d in self.declarations]))
+
 
 # Funcao auxiliar para converter para cadeias de caracteres
 # listas cujos elementos sejam convertiveis para
