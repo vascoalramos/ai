@@ -121,11 +121,18 @@ class SemanticNetwork:
     def list_types(self):  # alinea (d)
         return list(set([d.relation.entity2 for d in self.declarations if isinstance(d.relation, Member) or isinstance(d.relation, Subtype)] + [d.relation.entity1 for d in self.declarations if isinstance(d.relation, Subtype)]))
 
+    def list_local_associations(self, entity):  # alinea (e)
+        return list(set([d.relation.name for d in self.declarations if isinstance(d.relation, Association) and (d.relation.entity1 == entity or d.relation.entity2 == entity)]))
+
+    def list_relations_by_user(self, user):  # alinea (f)
+        return list(set([d.relation.name for d in self.declarations if d.user == user]))
+
+    def associations_by_user(self, user):
+        return len(set([d.relation.name for d in self.declarations if d.user == user and isinstance(d.relation, Association)]))
+
 # Funcao auxiliar para converter para cadeias de caracteres
 # listas cujos elementos sejam convertiveis para
 # cadeias de caracteres
-
-
 def my_list2string(list):
     if list == []:
         return "[]"
