@@ -62,7 +62,7 @@ class SearchProblem:
 
 # Nos de uma arvore de pesquisa
 class SearchNode:
-    def __init__(self, state, parent, depth, cost, heuristic = 0):
+    def __init__(self, state, parent, depth, cost, heuristic=0):
         self.state = state
         self.parent = parent
         self.depth = depth
@@ -96,7 +96,8 @@ class SearchTree:
         self.non_terminal = 1
         self.cost = 0
         self.max_accumulated_costs = [root]
-        self.nodes_depth = []
+        self.nodes_depth = [0]
+        self.mean_depth = 0
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self, node):
@@ -110,10 +111,11 @@ class SearchTree:
     def search(self, limit):
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
+            self.nodes_depth.append(node.depth)
             if self.problem.goal_test(node.state):
                 self.ramification = (
                     self.terminal + self.non_terminal - 1) / self.non_terminal
-                self.mean_depth = sum(self.mean_depth) / len(self.mean_depth)
+                self.mean_depth = sum(self.nodes_depth) / len(self.nodes_depth)
                 return self.get_path(node)
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):
@@ -127,15 +129,15 @@ class SearchTree:
                                              self.problem.domain.cost(
                                                  node.state, a),
                                              self.problem.domain.heuristic(
-                                                newstate, self.problem.goal))]
+                                                 newstate, self.problem.goal))]
                     self.length += 1
                     self.cost += self.problem.domain.cost(node.state, a)
-                    self.nodes_depth.append(node.depth)
 
                     if node.cost > self.max_accumulated_costs[0].cost:
                         self.max_accumulated_costs = [node]
                     elif node.cost == self.max_accumulated_costs[0].cost and node not in self.max_accumulated_costs:
                         self.max_accumulated_costs.append(node)
+
             self.add_to_open(lnewnodes)
             self.non_terminal += len(lnewnodes)
             if lnewnodes == []:

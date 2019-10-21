@@ -110,7 +110,7 @@ cidades_portugal = Cidades(
 )
 
 
-p = SearchProblem(cidades_portugal, 'Braga', 'Faro')
+p = SearchProblem(cidades_portugal, 'Aveiro', 'Faro')
 t = SearchTree(p, 'a*')
 
 
@@ -122,7 +122,7 @@ def search_path(c1, c2, strategy):
     return my_tree.search()
 
 
-print(t.search(8))
+print(t.search(12))
 print(F"Length: {t.length}")  # added to alinea (3)
 print(f"Terminal nodes: {t.terminal}")  # added to alinea (5)
 print(f"Non terminal nodes: {t.non_terminal}")  # added to alinea (5)
