@@ -2,7 +2,7 @@
 
 # Guiao de representacao do conhecimento
 # -- Redes semanticas
-# 
+#
 # Introducao a Inteligencia Artificial
 # DETI / UA
 #
@@ -18,29 +18,33 @@
 #
 
 class Relation:
-    def __init__(self,e1,rel,e2):
+    def __init__(self, e1, rel, e2):
         self.entity1 = e1
         self.name = rel
         self.entity2 = e2
+
     def __str__(self):
         return self.name + "(" + str(self.entity1) + "," + \
-               str(self.entity2) + ")"
+            str(self.entity2) + ")"
+
     def __repr__(self):
         return str(self)
 
 
 # Subclasse Association
 class Association(Relation):
-    def __init__(self,e1,assoc,e2):
-        Relation.__init__(self,e1,assoc,e2)
+    def __init__(self, e1, assoc, e2):
+        Relation.__init__(self, e1, assoc, e2)
 
 #   Exemplo:
 #   a = Association('socrates','professor','filosofia')
 
 # Subclasse Subtype
+
+
 class Subtype(Relation):
-    def __init__(self,sub,super):
-        Relation.__init__(self,sub,"subtype",super)
+    def __init__(self, sub, super):
+        Relation.__init__(self, sub, "subtype", super)
 
 
 #   Exemplo:
@@ -48,8 +52,8 @@ class Subtype(Relation):
 
 # Subclasse Member
 class Member(Relation):
-    def __init__(self,obj,type):
-        Relation.__init__(self,obj,"member",type)
+    def __init__(self, obj, type):
+        Relation.__init__(self, obj, "member", type)
 
 #   Exemplo:
 #   m = Member('socrates','homem')
@@ -58,12 +62,16 @@ class Member(Relation):
 # -- associa um utilizador a uma relacao por si inserida
 #    na rede semantica
 #
+
+
 class Declaration:
-    def __init__(self,user,rel):
+    def __init__(self, user, rel):
         self.user = user
         self.relation = rel
+
     def __str__(self):
         return "decl("+str(self.user)+","+str(self.relation)+")"
+
     def __repr__(self):
         return str(self)
 
@@ -76,44 +84,52 @@ class Declaration:
 # -- composta por um conjunto de declaracoes
 #    armazenado na forma de uma lista
 #
+
+
 class SemanticNetwork:
-    def __init__(self,ldecl=[]):
+    def __init__(self, ldecl=[]):
         self.declarations = ldecl
+
     def __str__(self):
         return my_list2string(self.declarations)
-    def insert(self,decl):
+
+    def insert(self, decl):
         self.declarations.append(decl)
-    def query_local(self,user=None,e1=None,rel=None,e2=None):
+
+    def query_local(self, user=None, e1=None, rel=None, e2=None):
         self.query_result = \
-            [ d for d in self.declarations
-                if  (user == None or d.user==user)
+            [d for d in self.declarations
+                if (user == None or d.user == user)
                 and (e1 == None or d.relation.entity1 == e1)
                 and (rel == None or d.relation.name == rel)
-                and (e2 == None or d.relation.entity2 == e2) ]
+                and (e2 == None or d.relation.entity2 == e2)]
         return self.query_result
+
     def show_query_result(self):
         for d in self.query_result:
             print(str(d))
 
-    def list_associations(self): # aliena (a)
+    def list_associations(self):  # aliena (a)
         return list(set([d.relation.name for d in self.declarations if isinstance(d.relation, Association)]))
 
-    def list_entities(self): # aliena (b)
+    def list_entities(self):  # aliena (b)
         return list(set([d.relation.entity1 for d in self.declarations if isinstance(d.relation, Member)]))
 
-    def list_users(self): # alinea (c)
+    def list_users(self):  # alinea (c)
         return list(set([d.user for d in self.declarations]))
 
+    def list_types(self):  # alinea (d)
+        return list(set([d.relation.entity2 for d in self.declarations if isinstance(d.relation, Member) or isinstance(d.relation, Subtype)] + [d.relation.entity1 for d in self.declarations if isinstance(d.relation, Subtype)]))
 
 # Funcao auxiliar para converter para cadeias de caracteres
 # listas cujos elementos sejam convertiveis para
 # cadeias de caracteres
-def my_list2string(list):
-   if list == []:
-       return "[]"
-   s = "[ " + str(list[0])
-   for i in range(1,len(list)):
-       s += ", " + str(list[i])
-   return s + " ]"
-    
 
+
+def my_list2string(list):
+    if list == []:
+        return "[]"
+    s = "[ " + str(list[0])
+    for i in range(1, len(list)):
+        s += ", " + str(list[i])
+    return s + " ]"
