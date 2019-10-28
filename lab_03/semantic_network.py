@@ -109,30 +109,46 @@ class SemanticNetwork:
         for d in self.query_result:
             print(str(d))
 
-    def list_associations(self):  # aliena (a)
+    def list_associations(self):  # aliena (1)
         return list(set([d.relation.name for d in self.declarations if isinstance(d.relation, Association)]))
 
-    def list_entities(self):  # aliena (b)
+    def list_entities(self):  # aliena (2)
         return list(set([d.relation.entity1 for d in self.declarations if isinstance(d.relation, Member)]))
 
-    def list_users(self):  # alinea (c)
+    def list_users(self):  # alinea (3)
         return list(set([d.user for d in self.declarations]))
 
-    def list_types(self):  # alinea (d)
+    def list_types(self):  # alinea (4)
         return list(set([d.relation.entity2 for d in self.declarations if isinstance(d.relation, Member) or isinstance(d.relation, Subtype)] + [d.relation.entity1 for d in self.declarations if isinstance(d.relation, Subtype)]))
 
-    def list_local_associations(self, entity):  # alinea (e)
+    def list_local_associations(self, entity):  # alinea (5)
         return list(set([d.relation.name for d in self.declarations if isinstance(d.relation, Association) and (d.relation.entity1 == entity or d.relation.entity2 == entity)]))
 
-    def list_relations_by_user(self, user):  # alinea (f)
+    def list_relations_by_user(self, user):  # alinea (6)
         return list(set([d.relation.name for d in self.declarations if d.user == user]))
 
-    def associations_by_user(self, user):
+    def associations_by_user(self, user):  # alinea (7)
         return len(set([d.relation.name for d in self.declarations if d.user == user and isinstance(d.relation, Association)]))
 
-# Funcao auxiliar para converter para cadeias de caracteres
-# listas cujos elementos sejam convertiveis para
-# cadeias de caracteres
+    def list_local_associations_and_user(self, entity):  # alinea (8)
+        return list(set([(d.relation.name, d.user) for d in self.declarations if isinstance(d.relation, Association) and (d.relation.entity1 == entity or d.relation.entity2 == entity)]))
+
+    def predecessor(self, A, B):  # alinea (9)
+        dp = [d.relation for d in self.declarations if d.relation.entity1 == B and (
+            isinstance(d.relation, Member) or isinstance(d.relation, Subtype))]
+
+        if [r for r in dp if r.entity2 == A] != []:
+            return True
+
+        return any([self.predecessor(A, r.entity2) for r in dp])
+
+    def predecessor_path(self, A, B):
+        
+        
+
+
+# Funcao auxiliar para converter para cadeias de caracteres listas
+# cujos elementos sejam convertiveis para cadeias de caracteres
 def my_list2string(list):
     if list == []:
         return "[]"

@@ -108,7 +108,7 @@ class SearchTree:
         return(path)
 
     # procurar a solucao
-    def search(self, limit):
+    def search(self, limit=10000000000000000000000000000):
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
             self.nodes_depth.append(node.depth)
