@@ -1,3 +1,5 @@
+from collections import Counter
+
 # Guiao de representacao do conhecimento
 # -- Redes semanticas
 #
@@ -33,6 +35,16 @@ class Relation:
 class Association(Relation):
     def __init__(self, e1, assoc, e2):
         Relation.__init__(self, e1, assoc, e2)
+
+
+class AssocOne(Relation):
+    def __init__(self, e1, assoc, e2):
+        Relation.__init__(self, e1, assoc, e2)
+
+
+class AssocNum(Relation):
+    def __init__(self, e1, assoc, e2):
+        Relation.__init__(self, e1, assoc, float(e2))
 
 
 #   Exemplo:
@@ -276,6 +288,33 @@ class SemanticNetwork:
         return [item for sublist in descendents for item in sublist] + self.query_local(
             e1=entity, rel=relation
         )
+
+    def query_induce(self, entity, relation):
+        suc = self.query_down(entity, relation)
+
+        c = Counter([s.relation.entity2 for s in suc])
+        for v, count in c.most_common(1):
+            return v
+
+    def query_local_assoc(self, entity, relation):
+        local_decl = self.query_local(e1=entity, rel=relation)
+        if len(local_decl) and isinstance(local_decl[0].relation, AssocNum):
+            return sum([l.relation.entity2 for l in local_decl]) / len(local_decl)
+
+        elif len(local_decl) and isinstance(local_decl[0].relation, AssocOne):
+            c = Counter([l.relation.entity2 for l in local_decl])
+            v, count = c.most_common(1)[0]
+            return v, count / len(local_decl)
+
+        elif len(local_decl) and isinstance(local_decl[0].relation, Association):
+            c = Counter([l.relation.entity2 for l in local_decl])
+            l = []
+            acc = 0
+            for v, count in c.most_common():
+                if acc < 0.75:
+                    l.append((v, count / len(local_decl)))
+                    acc += count / len(local_decl)
+            return l
 
 
 # Funcao auxiliar para converter para cadeias de caracteres listas
