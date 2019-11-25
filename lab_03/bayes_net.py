@@ -1,7 +1,4 @@
-
-
 class BayesNet:
-
     def __init__(self, ldep=None):  # Why not ldep={}? See footnote 1.
         if not ldep:
             ldep = {}
@@ -11,17 +8,17 @@ class BayesNet:
     # em que as dependencias de cada variavel
     # estao num dicionario (mothers,prob);
     # "mothers" e' um frozenset de pares (mothervar,boolvalue)
-    def add(self,var,mothers,prob):
-        self.dependencies.setdefault(var,{})[frozenset(mothers)] = prob
+    def add(self, var, mothers, prob):
+        self.dependencies.setdefault(var, {})[frozenset(mothers)] = prob
 
-    # Probabilidade conjunta de uma dada conjuncao 
+    # Probabilidade conjunta de uma dada conjuncao
     # de valores de todas as variaveis da rede
-    def jointProb(self,conjunction):
+    def jointProb(self, conjunction):
         prob = 1.0
-        for (var,val) in conjunction:
-            for (mothers,p) in self.dependencies[var].items():
+        for (var, val) in conjunction:
+            for (mothers, p) in self.dependencies[var].items():
                 if mothers.issubset(conjunction):
-                    prob*=(p if val else 1-p)
+                    prob *= p if val else 1 - p
         return prob
 
 

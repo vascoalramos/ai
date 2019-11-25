@@ -1,8 +1,7 @@
 
 from bayes_net import *
 
-# Exemplo dos acetatos:
-
+# Exemplo dos acetatos:I
 bn = BayesNet()
 
 bn.add('r',[],0.001)
