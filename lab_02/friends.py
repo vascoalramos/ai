@@ -30,5 +30,6 @@ amigos = ["andre", "bernardo", "claudio"]
 
 cs = ConstraintSearch(make_domains(amigos), make_constraint_graph(amigos))
 
-print(cs.search())
-
+solution, call = cs.search()
+print(solution)
+print(call)

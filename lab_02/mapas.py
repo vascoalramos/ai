@@ -20,3 +20,4 @@ cores = ["vermelho", "verde", "azul", "amarelo" "branco"]
 cs = ConstraintSearch(make_domains(alinea_a, cores), make_constraint_graph(alinea_a))
 
 print(cs.search())
+print(cs.call)
